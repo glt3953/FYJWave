@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		5A62833E2B199C660037A7AD /* NXAudioWave.m in Sources */ = {isa = PBXBuildFile; fileRef = 5A62833D2B199C660037A7AD /* NXAudioWave.m */; };
 		BCA4CCFE1FC675D400000661 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = BCA4CCFD1FC675D400000661 /* AppDelegate.m */; };
 		BCA4CD011FC675D400000661 /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = BCA4CD001FC675D400000661 /* ViewController.m */; };
 		BCA4CD041FC675D400000661 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = BCA4CD021FC675D400000661 /* Main.storyboard */; };
@@ -17,6 +18,8 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		5A62833C2B199C660037A7AD /* NXAudioWave.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = NXAudioWave.h; sourceTree = "<group>"; };
+		5A62833D2B199C660037A7AD /* NXAudioWave.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = NXAudioWave.m; sourceTree = "<group>"; };
 		BCA4CCF91FC675D400000661 /* FYJWave.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = FYJWave.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		BCA4CCFC1FC675D400000661 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		BCA4CCFD1FC675D400000661 /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
@@ -72,6 +75,8 @@
 				BCA4CD0B1FC675D400000661 /* main.m */,
 				BCA4CD121FC6761300000661 /* FYJWave.h */,
 				BCA4CD131FC6761300000661 /* FYJWave.m */,
+				5A62833C2B199C660037A7AD /* NXAudioWave.h */,
+				5A62833D2B199C660037A7AD /* NXAudioWave.m */,
 			);
 			path = FYJWave;
 			sourceTree = "<group>";
@@ -147,6 +152,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				5A62833E2B199C660037A7AD /* NXAudioWave.m in Sources */,
 				BCA4CD141FC6761300000661 /* FYJWave.m in Sources */,
 				BCA4CD011FC675D400000661 /* ViewController.m in Sources */,
 				BCA4CD0C1FC675D400000661 /* main.m in Sources */,

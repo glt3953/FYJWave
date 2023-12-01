@@ -1,18 +1,16 @@
 //
-//  FYJWave.m
+//  NXAudioWave.m
 //  FYJWave
 //
-//  Created by fuyujiao on 2017/11/23.
-//  Copyright © 2017年 fyj. All rights reserved.
+//  Created by NingXia on 2023/12/1.
+//  Copyright © 2023 fyj. All rights reserved.
 //
 
-#import "FYJWave.h"
+#import "NXAudioWave.h"
 
-@interface FYJWave()
-{
-    //偏移
-    CGFloat _offset;
-}
+@interface NXAudioWave()
+
+@property(nonatomic) CGFloat offset;
 //帧刷新器
 @property (nonatomic, strong) CADisplayLink *displayLink;
 //真实浪
@@ -21,114 +19,104 @@
 @property (nonatomic, weak) CAShapeLayer *maskWaveShareLayer;
 
 @end
-@implementation FYJWave
 
-- (void)awakeFromNib
-{
+@implementation NXAudioWave
+
+- (void)awakeFromNib {
     [super awakeFromNib];
+    
     [self initData];
 }
 
-- (instancetype)init
-{
+- (instancetype)init {
     self = [super init];
+    
     if (self) {
         [self initData];
     }
+    
     return self;
 }
 
-- (instancetype)initWithFrame:(CGRect)frame
-{
+- (instancetype)initWithFrame:(CGRect)frame {
     self = [super initWithFrame:frame];
+    
     if (self) {
         [self initData];
     }
+    
     return self;
 }
 
 #pragma mark - 默认配置
-- (void)initData
-{
-    _waveHeight = 15;
+- (void)initData {
+    _waveHeight = 5;
     _waveCurve = 1;
-    _waveSpeed = 5;
+    _waveSpeed = 1;
     
     [self.layer addSublayer:self.realWaveShapeLayer];
     [self.layer addSublayer:self.maskWaveShareLayer];
     
-    _realWaveColor = [UIColor whiteColor];
+    _realWaveColor = [UIColor blueColor];
     _maskWaveColor = [[UIColor whiteColor] colorWithAlphaComponent:0.5];
 }
 
-
 #pragma mark - lazy load
-- (CADisplayLink *)displayLink
-{
+- (CADisplayLink *)displayLink {
     if (!_displayLink) {
         _displayLink = [CADisplayLink displayLinkWithTarget:self selector:@selector(wave)];
     }
+    
     return _displayLink;
 }
 
-- (CAShapeLayer *)realWaveShapeLayer
-{
+- (CAShapeLayer *)realWaveShapeLayer {
     if (!_realWaveShapeLayer) {
         CAShapeLayer *layer = [CAShapeLayer layer];
-        layer.frame = [self getFrame];
+        layer.frame = [self getWaveFrame];
         _realWaveShapeLayer = layer;
     }
+    
     return _realWaveShapeLayer;
 }
 
-- (CAShapeLayer *)maskWaveShareLayer
-{
+- (CAShapeLayer *)maskWaveShareLayer {
     if (!_maskWaveShareLayer) {
         CAShapeLayer *layer = [CAShapeLayer layer];
-        layer.frame = [self getFrame];
+        layer.frame = [self getWaveFrame];
         _maskWaveShareLayer = layer;
     }
+    
     return _maskWaveShareLayer;
 }
 
-- (CGRect)getFrame
-{
+- (CGRect)getWaveFrame {
     CGRect frame = self.bounds;
-    frame.origin.y = frame.size.height - self.waveHeight;
-    frame.size.height = self.waveHeight;
+    frame.origin.y = frame.size.height - _waveHeight;
+    frame.size.height = _waveHeight;
+    
     return frame;
 }
 
 #pragma mark - 自定义配置
-- (void)setWaveHeight:(CGFloat)waveHeight
-{
+- (void)setWaveHeight:(CGFloat)waveHeight {
     _waveHeight = waveHeight;
-    self.realWaveShapeLayer.frame = [self getFrame];
-    self.maskWaveShareLayer.frame = [self getFrame];
+    _realWaveShapeLayer.frame = [self getWaveFrame];
+    _maskWaveShareLayer.frame = [self getWaveFrame];
 }
 
-
-#pragma mark -
 #pragma mark - 创建浪
-- (void)wave
-{
+- (void)wave {
     //每次循环变动
-    _offset += self.waveSpeed;
+    _offset += _waveSpeed;
     
     CGFloat width = CGRectGetWidth(self.frame);
-    CGFloat height = self.waveHeight;
+    CGFloat height = _waveHeight;
     
-    //浮动的中间Y值的回调
-    CGFloat centerX = width / 2;
-    CGFloat centerY = height  * sinf(self.waveCurve * centerX * M_PI / 180 + _offset * M_PI / 180 );
-    if(_waveFloatCenterYCallBack){
-        _waveFloatCenterYCallBack(centerY);
-    }
-    
-    //创建真浪
-    [self createWaveWithShapeLayer:self.realWaveShapeLayer width:width height:height offset:_offset waveWolor:self.realWaveColor];
-    //创建遮罩浪
-//    [self createWaveWithShapeLayer:self.maskWaveShareLayer width:width height:height offset:_offset*0.7 waveWolor:self.maskWaveColor];
+    //创建上行浪
+    [self createWaveWithShapeLayer:_realWaveShapeLayer width:width height:height offset:_offset waveWolor:_realWaveColor];
+    //创建下行浪
+    [self createWaveWithShapeLayer:_maskWaveShareLayer width:width height:height offset:_offset*0.7 waveWolor:_maskWaveColor];
 }
 
 //创建浪
@@ -163,22 +151,14 @@
 }
 
 #pragma mark - 开始浪
-- (void)startWaveAnimation
-{
+- (void)startWaveAnimation {
     [self.displayLink addToRunLoop:[NSRunLoop currentRunLoop] forMode:NSRunLoopCommonModes];
 }
 
 #pragma mark - 停止浪
-- (void)endWaveAnimation
-{
+- (void)endWaveAnimation {
     [self.displayLink invalidate];
     self.displayLink = nil;
-}
-
-#pragma mark - 浮动的中间Y值的回调
-- (void)setWaveFloatYCallBack:(WaveFloatCenterYCallBack)callBack
-{
-    _waveFloatCenterYCallBack = callBack;
 }
 
 @end
